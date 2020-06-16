@@ -73,7 +73,7 @@ export class AppComponent implements AfterContentInit, OnInit {
     this.svg.call(this.zoom);
     Promise.all([
       d3.json("assets/data/50m.json"),
-      this.http.get("http://localhost:3000/worldData").toPromise(),
+      this.http.get("http://35.224.154.91:5632/worldData").toPromise(),
       //d3.json("assets/data/covid-cases.json"),
     ]).then(([world,data]) => {
       let covData = data['results'];

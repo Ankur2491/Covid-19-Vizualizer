@@ -17,7 +17,7 @@ export class DetailCountryComponent implements OnInit {
   constructor(private activeModal: NgbActiveModal, private http: HttpClient) { }
 
   ngOnInit(){
-    this.http.get(`http://localhost:3000/countryData/${this.modal_heading}`).subscribe((data: CountryDetails)=>{
+    this.http.get(`http://35.224.154.91:5632/countryData/${this.modal_heading}`).subscribe((data: CountryDetails)=>{
       this.country_data = data;
     })
   }
