@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <h4 class="modal-title modal-heading" id="modal-basic-title">{{modal_heading}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div *ngIf="!country_data" class="modal-body">
+    <div class="d-flex justify-content-center">
+    <div  class="spinner-grow text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+      </div>
+</div>
+<div *ngIf="country_data" class="modal-body">
+    <img [src]="country_data.countryInfo.flag" class="img-thumbnail">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <p>Total confirmed cases: <b>{{country_data.cases}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total cases reported today: <b>{{country_data.todayCases}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total deaths so far: <b>{{country_data.deaths}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total deaths reported today: <b>{{country_data.todayDeaths}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total recovered cases so far: <b>{{country_data.recovered}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total recovered cases today: <b>{{country_data.todayRecovered}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total active cases: <b>{{country_data.active}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total critical cases: <b>{{country_data.critical}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Cases per million: <b>{{country_data.casesPerOneMillion}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Deaths per million: <b>{{country_data.deathsPerOneMillion}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total tests: <b>{{country_data.tests}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Total Population: <b>{{country_data.population}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Tests per million: <b>{{country_data.testsPerOneMillion}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Tests per million: <b>{{country_data.testsPerOneMillion}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Active per million: <b>{{country_data.activePerOneMillion}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Recovered per million: <b>{{country_data.recoveredPerOneMillion}}</b></p>
+            </div>
+            <div class="col-md-4">
+                <p>Critical per million: <b>{{country_data.criticalPerOneMillion}}</b></p>
+            </div>
+        </div>
+    </div>
+</div>
