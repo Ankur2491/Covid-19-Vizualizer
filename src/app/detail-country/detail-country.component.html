@@ -12,7 +12,7 @@
       </div>
 </div>
 <div *ngIf="country_data" class="modal-body">
-    <img [src]="country_data.countryInfo.flag" class="img-thumbnail">
+    <img [src]="country_data.countryInfo.flag" class="img-thumbnail"><span><small>(Last updated on: {{last_updated}})</small></span>
     <div class="container">
         <div class="row">
             <div class="col-md-4">
