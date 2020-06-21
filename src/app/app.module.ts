@@ -7,22 +7,26 @@ import { DetailCountryComponent } from './detail-country/detail-country.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {HttpClientModule} from '@angular/common/http';
+import { ChartComponent } from './chart/chart.component';
 @NgModule({
   declarations: [
     AppComponent,
-    DetailCountryComponent
+    DetailCountryComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgxChartsModule,
     BrowserAnimationsModule,
     MatIconModule,
     NgbModule
   ],
   providers: [],
-  entryComponents:[DetailCountryComponent],
+  //entryComponents:[DetailCountryComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

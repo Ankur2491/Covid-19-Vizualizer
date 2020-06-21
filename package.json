@@ -18,6 +18,7 @@
     "@angular/core": "~9.1.11",
     "@angular/forms": "~9.1.11",
     "@angular/localize": "^9.1.11",
+    "@swimlane/ngx-charts": "^13.0.0",
     "@angular/material": "^8.2.2",
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",

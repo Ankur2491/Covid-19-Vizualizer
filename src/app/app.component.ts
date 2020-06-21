@@ -1,7 +1,7 @@
 import { Component, AfterContentInit, OnInit } from '@angular/core';
 import * as d3 from "d3";
 import * as topojson from "topojson-client";
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DetailCountryComponent } from './detail-country/detail-country.component';
 import { HttpClient } from '@angular/common/http';
@@ -30,8 +30,13 @@ export class AppComponent implements AfterContentInit, OnInit {
     let transform = d3.zoomTransform(this);
     this.map.attr("transform", transform);
   });
-  constructor(private router: Router, private modalService: NgbModal, private http: HttpClient) { }
-  ngOnInit() {}
+  constructor(private router: Router, private modalService: NgbModal, private http: HttpClient, private activatedRoute: ActivatedRoute) { }
+  ngOnInit() {
+    this.activatedRoute.params.subscribe((data)=>{
+      this.isWorldMapVisible = data.homeVisible;
+      d3.selectAll('g').style('visibility','visible');
+    })
+  }
 
   toggleSpeechRecognition() {
     if ('webkitSpeechRecognition' in window) {
@@ -160,13 +165,17 @@ export class AppComponent implements AfterContentInit, OnInit {
       })
       .on('click', (event) => {
         let selectedCountry = event.properties.name
-        let details = event.details
-        const modelRef = this.modalService.open(DetailCountryComponent, {
-          windowClass: "detailModalClass"
-        });
-        modelRef.componentInstance.modal_heading = selectedCountry;
-        modelRef.componentInstance.modal_details = details;
+        // let details = event.details
+        // const modelRef = this.modalService.open(DetailCountryComponent, {
+        //   windowClass: "detailModalClass"
+        // });
+        // modelRef.componentInstance.modal_heading = selectedCountry;
+        // modelRef.componentInstance.modal_details = details;
         //this.router.navigate([`/detail/${selectedCountry}`])
+        this.isWorldMapVisible = false;
+        d3.selectAll('g').style('visibility','hidden');
+        this.router.navigate([`/chart/${selectedCountry}`],{skipLocationChange:true});
+
       })
   }
 

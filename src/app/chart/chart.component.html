@@ -1,0 +1,39 @@
+<!-- <h1>chart works!</h1> -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn-info" (click)="home()">Home</button>
+            <br />
+            <button class="btn-info" (click)="openDetails()">More Details</button>
+            <h3>Data for:{{selectedCountry}}</h3>
+        </div>
+        <div class="col-md-12">
+            <p>Total Cases</p>
+            <hr />
+            <ngx-charts-bar-vertical [view]="view" [scheme]="colorSchemeCases" [results]="casesData"
+                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>
+        </div>
+        <div class="col-md-12">
+            <p>Death Cases</p>
+            <hr />
+            <ngx-charts-bar-vertical [view]="view" [scheme]="colorSchemeDeaths" [results]="deathData"
+                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>
+        </div>
+        <div class="col-md-12">
+            <p>Recovered Cases</p>
+            <hr />
+            <ngx-charts-bar-vertical [view]="view" [scheme]="colorSchemeRecovered" [results]="recoveredData"
+                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                (select)="onSelect($event)">
+            </ngx-charts-bar-vertical>
+        </div>
+    </div>
+</div>

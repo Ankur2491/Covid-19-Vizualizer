@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
-import { CountryInfo } from '../models/country-info-model';
 import { CountryDetails } from '../models/country-details-model';
 
 @Component({
@@ -12,7 +10,7 @@ import { CountryDetails } from '../models/country-details-model';
 })
 export class DetailCountryComponent implements OnInit {
   @Input() modal_heading;
-  @Input() modal_details;
+  // @Input() modal_details;
   country_data: CountryDetails;
   last_updated: string;
   constructor(private activeModal: NgbActiveModal, private http: HttpClient) { }
