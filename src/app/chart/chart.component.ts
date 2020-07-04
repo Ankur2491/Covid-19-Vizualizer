@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DetailCountryComponent } from '../detail-country/detail-country.component';
-
+import * as d3 from "d3";
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
@@ -23,63 +23,84 @@ export class ChartComponent implements OnInit {
   xAxisLabel = 'Date';
   showYAxisLabel = true;
   yAxisLabel = 'Count';
-  colorSchemeCases = {
-    domain: []
-  };
-  colorSchemeDeaths = {
-    domain: []
-  };
-  colorSchemeRecovered = {
-    domain: []
-  };
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private modalService: NgbModal) { }
 
+  legend: boolean = true;
+  showLabels: boolean = true;
+  animations: boolean = true;
+  xAxis: boolean = true;
+  yAxis: boolean = true;
+  timeline: boolean = true;
+  colorSchemeDeath = {
+    //'#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'
+    domain: ['#A10A28']
+  };
+  colorSchemeCombined = {
+    //'#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'
+    domain: ['#005AFF','#5AA454']
+  };
+  x = d3.select('body').attr('class', 'body-black-component').append('h1').attr('class', 'header-black').text('Covid-19-Visualiser').attr('align', 'center').style('font-family', 'courier');
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private http: HttpClient, private modalService: NgbModal) {
+  }
+  historicalData: any[] = [{"name": "Deaths", "series":[]}]; 
+  historicalDataCombined: any[] = [{"name": "Cases", "series":[]},{"name": "Recovered", "series":[]}]; 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((data) => {
       this.selectedCountry = data.country;
+      // this.http.get(`http://35.224.154.91:5630/historicalData/${this.selectedCountry}`).subscribe((res) => {
+      //   console.log(res);
+      //   let cases = res['timeline'].cases;
+      //   let deaths = res['timeline'].deaths;
+      //   let recovered = res['timeline'].recovered;
+      //   for (let key of Object.keys(cases)) {
+      //     let obj = {};
+      //     obj["name"] = key;
+      //     obj["value"] = cases[key];
+      //     this.casesData.push(obj);
+      //     this.colorSchemeCases.domain.push('#0000ff');
+      //   }
+      //   for (let key of Object.keys(deaths)) {
+      //     let obj = {};
+      //     obj["name"] = key;
+      //     obj["value"] = deaths[key];
+      //     this.deathData.push(obj);
+      //     this.colorSchemeDeaths.domain.push('#ff0000');
+      //   }
+      //   for (let key of Object.keys(recovered)) {
+      //     let obj = {};
+      //     obj["name"] = key;
+      //     obj["value"] = recovered[key];
+      //     this.recoveredData.push(obj);
+      //     this.colorSchemeRecovered.domain.push('#00ff00');
+      //   }
+      //   let length = this.casesData.length;
+      //   this.casesData = this.casesData.slice(0, length);
+      //   this.deathData = this.deathData.slice(0, length);
+      //   this.recoveredData = this.recoveredData.slice(0, length);
+      // })
       this.http.get(`http://35.224.154.91:5630/historicalData/${this.selectedCountry}`).subscribe((res) => {
-        console.log(res);
         let cases = res['timeline'].cases;
         let deaths = res['timeline'].deaths;
         let recovered = res['timeline'].recovered;
-        for (let key of Object.keys(cases)) {
-          let obj = {};
-          obj["name"] = key;
-          obj["value"] = cases[key];
-          this.casesData.push(obj);
-          this.colorSchemeCases.domain.push('#0000ff');
+        let dates = Array.from(Object.keys(cases));
+        for(let i=1;i<dates.length;i++){
+          let differenceCase = Math.abs(cases[dates[i]]-cases[dates[i-1]]);
+          let differenceDeath = Math.abs(deaths[dates[i]]-deaths[dates[i-1]]);
+          let differenceRecovered = Math.abs(recovered[dates[i]]-recovered[dates[i-1]]);
+          let obj1 = {};
+          let obj2 = {};
+          let obj3 = {};
+          obj1["name"] = dates[i];
+          obj1["value"] = differenceCase;
+          obj2["name"] = dates[i];
+          obj2["value"] = differenceDeath;
+          obj3["name"] = dates[i];
+          obj3["value"] = differenceRecovered;
+          this.historicalData[0].series.push(obj2);
+          this.historicalDataCombined[0].series.push(obj1);
+          this.historicalDataCombined[1].series.push(obj3);
         }
-        for (let key of Object.keys(deaths)) {
-          let obj = {};
-          obj["name"] = key;
-          obj["value"] = deaths[key];
-          this.deathData.push(obj);
-          this.colorSchemeDeaths.domain.push('#ff0000');
-        }
-        for (let key of Object.keys(recovered)) {
-          let obj = {};
-          obj["name"] = key;
-          obj["value"] = recovered[key];
-          this.recoveredData.push(obj);
-          this.colorSchemeRecovered.domain.push('#00ff00');
-        }
-        // Object.keys(deaths).forEach(key=>{
-        //   this.deathData.push({"name":key,"value":deaths[key]});
-        // })
-        // Object.keys(recovered).forEach(key=>{
-        //   this.recoveredData.push({"name":key,"value":recovered[key]});
-        // })
-        // })
-        //console.log("Before:",this.casesData);
-        //this.casesData = [ { "name": "Maharashtra", "value": 0 }, { "name": "Tamil Nadu", "value": 0 }, { "name": "Delhi", "value": 0 }, { "name": "State Unassigned", "value": 0 }, { "name": "Gujarat", "value": 6396 }, { "name": "Uttar Pradesh", "value": 6237 }, { "name": "West Bengal", "value": 5126 }, { "name": "Haryana", "value": 4946 }, { "name": "Andhra Pradesh", "value": 4240 }, { "name": "Telangana", "value": 3363 }, { "name": "Karnataka", "value": 3169 }, { "name": "Rajasthan", "value": 2955 }, { "name": "Jammu and Kashmir", "value": 2417 }, { "name": "Madhya Pradesh", "value": 2343 }, { "name": "Bihar", "value": 2087 }, { "name": "Assam", "value": 2025 }, { "name": "Kerala", "value": 1450 }, { "name": "Odisha", "value": 1307 }, { "name": "Punjab", "value": 1176 }, { "name": "Uttarakhand", "value": 809 }, { "name": "Chhattisgarh", "value": 755 }, { "name": "Ladakh", "value": 718 }, { "name": "Goa", "value": 625 }, { "name": "Jharkhand", "value": 609 }, { "name": "Manipur", "value": 545 }, { "name": "Tripura", "value": 508 }, { "name": "Himachal Pradesh", "value": 231 }, { "name": "Puducherry", "value": 200 }, { "name": "Mizoram", "value": 132 }, { "name": "Arunachal Pradesh", "value": 120 }, { "name": "Chandigarh", "value": 82 }, { "name": "Nagaland", "value": 73 }, { "name": "Dadra and Nagar Haveli and Daman and Diu", "value": 62 }, { "name": "Sikkim", "value": 49 }, { "name": "Andaman and Nicobar Islands", "value": 12 }, { "name": "Meghalaya", "value": 5 }, { "name": "Lakshadweep", "value": 0 } ];
-        let length = this.casesData.length;
-        this.casesData = this.casesData.slice(0, length);
-        this.deathData = this.deathData.slice(0, length);
-        this.recoveredData = this.recoveredData.slice(0, length);
-        //Object.assign(this, new Object(this.casesData));
-        // console.log("deaths:",this.deathData);
-        // console.log("recovered",this.recoveredData);
-        // console.log(this.colorScheme);
+        this.historicalDataCombined = [...this.historicalDataCombined]
+        this.historicalData = [...this.historicalData]
       })
     })
   }

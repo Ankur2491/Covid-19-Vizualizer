@@ -22,6 +22,7 @@ export class AppComponent implements AfterContentInit, OnInit {
   height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   isWorldMapVisible = true;
   covidData: any;
+  x = d3.select('body').attr('class','body-blue-component').append('h1').attr('class','header-black').text('Covid-19-Visualiser').attr('align','center').style('font-family','courier');
   svg = d3.select("body")
     .append("svg")
     .style("cursor", "move");
@@ -30,11 +31,15 @@ export class AppComponent implements AfterContentInit, OnInit {
     let transform = d3.zoomTransform(this);
     this.map.attr("transform", transform);
   });
+  
+
   constructor(private router: Router, private modalService: NgbModal, private http: HttpClient, private activatedRoute: ActivatedRoute) { }
   ngOnInit() {
     this.activatedRoute.params.subscribe((data)=>{
+      if(data.homeVisible){
       this.isWorldMapVisible = data.homeVisible;
       d3.selectAll('g').style('visibility','visible');
+      }
     })
   }
 

@@ -1,39 +1,40 @@
-<!-- <h1>chart works!</h1> -->
+<h1 style="text-align:center;font-family:courier; color: white; ">Covid-19 Visualiser</h1>
 
 <div class="container-fluid">
     <div class="row">
+        <div class="col-md-3">
+            <button class="btn btn-link" (click)="home()">Go back to world map</button>
+        </div>
+        <!-- <div class="col-md-2">
+            <button class="btn btn-link" (click)="openDetails()">More Details</button>      
+        </div> -->
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
         <div class="col-md-12">
-            <button class="btn-info" (click)="home()">Home</button>
-            <br />
-            <button class="btn-info" (click)="openDetails()">More Details</button>
-            <h3>Data for:{{selectedCountry}}</h3>
+            <h3 style="color:grey">Data for->{{selectedCountry}}</h3>
+                <p style="color:grey">(<button class="btn btn-link" (click)="openDetails()">More Details for {{selectedCountry}}</button>)</p>
+                <p style="color:white"><u>The following graphs show the per day rise/fall in the respective counts.</u></p>
+            <p style="color:grey">Active & Recovered cases(Past 180 days):</p>
+            <hr />
+            <ngx-charts-line-chart [view]="view" [scheme]="colorSchemeCombined" [legend]="legend"
+            [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
+            [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="historicalDataCombined"
+            [showGridLines]="false" (select)="onSelect($event)" (activate)="onActivate($event)"
+            (deactivate)="onDeactivate($event)"
+            style="fill: grey;">
+          </ngx-charts-line-chart>
         </div>
         <div class="col-md-12">
-            <p>Total Cases</p>
+            <p style="color: grey;">Death Cases(Past 180 days):</p>
             <hr />
-            <ngx-charts-bar-vertical [view]="view" [scheme]="colorSchemeCases" [results]="casesData"
-                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                (select)="onSelect($event)">
-            </ngx-charts-bar-vertical>
-        </div>
-        <div class="col-md-12">
-            <p>Death Cases</p>
-            <hr />
-            <ngx-charts-bar-vertical [view]="view" [scheme]="colorSchemeDeaths" [results]="deathData"
-                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                (select)="onSelect($event)">
-            </ngx-charts-bar-vertical>
-        </div>
-        <div class="col-md-12">
-            <p>Recovered Cases</p>
-            <hr />
-            <ngx-charts-bar-vertical [view]="view" [scheme]="colorSchemeRecovered" [results]="recoveredData"
-                [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [showXAxisLabel]="showXAxisLabel"
-                [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                (select)="onSelect($event)">
-            </ngx-charts-bar-vertical>
+            <ngx-charts-line-chart [view]="view" [scheme]="colorSchemeDeath" [legend]="legend"
+            [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis"
+            [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="historicalData"
+            [showGridLines]="false" (select)="onSelect($event)" (activate)="onActivate($event)"
+            (deactivate)="onDeactivate($event)" style="fill: grey;">
+          </ngx-charts-line-chart>
         </div>
     </div>
 </div>
