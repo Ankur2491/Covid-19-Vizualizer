@@ -23,6 +23,7 @@ export class AppComponent implements AfterContentInit, OnInit {
   isWorldMapVisible = true;
   covidData: any;
   x = d3.select('body').attr('class','body-blue-component').append('h1').attr('class','header-black').text('Covid-19-Visualiser').attr('align','center').style('font-family','courier');
+  // db = d3.select('body').append('svg:a').attr('xlink:href','https://www.linkedin.com/in/ankur-sharma-341446b1/');
   svg = d3.select("body")
     .append("svg")
     .style("cursor", "move");
